@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
+import static java.lang.Thread.sleep;
+
 public class Gui {
     public static String selectedEmployeeType = null;
     public static String selectedEmployeeName = null;
@@ -22,21 +24,15 @@ public class Gui {
 
     public static void main(String args[]){
 
-        int num=0;
-        loginPanel();
-        loginPressed();
-        while(!(loginAnswer.equals("found"))){
-            System.out.println("in");
-            if(loginAnswer.equals("worker doesnt exist")) {
-                JOptionPane.showMessageDialog(null, "there is no such employee");
-                loginAnswer = "not found";
-            }
-            if (loginAnswer.equals("incorrect password")){
-                JOptionPane.showMessageDialog(null, "incorrect password");
-                loginAnswer = "not found";
+        while(!(loginAnswer.equals("found"))) {
+            try {
+                loginProcess();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         if(loginAnswer.equals("found")) {
+            System.out.println("after, in found");
             JOptionPane.showMessageDialog(null, "login Succeded");
             frame.setVisible(false);
             actionsPanel();
@@ -46,7 +42,24 @@ public class Gui {
         //}
    }
 
-   public static void loginProcess(){}
+   public static void loginProcess() throws InterruptedException {
+        System.out.println("entered the function");
+       loginPanel();
+       loginPressed();
+       while(!(loginAnswer.equals("found"))){
+           sleep(1000);
+           if(loginAnswer.equals("worker doesnt exist")) {
+               JOptionPane.showMessageDialog(null, "there is no such employee");
+               loginAnswer = "not found";
+               return;
+           }
+           if (loginAnswer.equals("incorrect password")){
+               JOptionPane.showMessageDialog(null, "incorrect password");
+               loginAnswer = "not found";
+               return;
+           }
+       }
+   }
 
     public static void loginPanel() {
         System.out.println(" in login panel");
