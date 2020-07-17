@@ -25,25 +25,28 @@ public class Gui {
         int num=0;
         loginPanel();
         loginPressed();
-        while(loginAnswer.equals("not found")){
+        while(!(loginAnswer.equals("found"))){
             System.out.println("in");
+            if(loginAnswer.equals("worker doesnt exist")) {
+                JOptionPane.showMessageDialog(null, "there is no such employee");
+                loginAnswer = "not found";
+            }
+            if (loginAnswer.equals("incorrect password")){
+                JOptionPane.showMessageDialog(null, "incorrect password");
+                loginAnswer = "not found";
+            }
         }
-        /*if(loginAnswer.equals("worker doesnt exist")){
-            JOptionPane.showMessageDialog(null, "there is no such employee");
-        }
-        if (loginAnswer.equals("incorrect password")){
-            JOptionPane.showMessageDialog(null, "incorrect password");
-        }*/
         if(loginAnswer.equals("found")) {
             JOptionPane.showMessageDialog(null, "login Succeded");
             frame.setVisible(false);
-        }
-        if(loginSuccess==true){
             actionsPanel();
-            System.out.println("in login success =true");
         }
-        System.out.println("first "+loginSuccess);
+        //if(loginSuccess==true){
+            //actionsPanel();
+        //}
    }
+
+   public static void loginProcess(){}
 
     public static void loginPanel() {
         System.out.println(" in login panel");
@@ -114,8 +117,8 @@ public static void loginPressed(){
         dos.writeUTF(name);
         dos.writeUTF(pass);
         String answer = dis.readUTF();
-        selectedEmployeeType = dis.readUTF();//add it to the if, akso in the main
         if (answer.equals("found")){
+            selectedEmployeeType = dis.readUTF();//add it to the if, akso in the main
             loginSuccess = true;
             selectedEmployeeName = name;
         }
