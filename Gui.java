@@ -22,25 +22,22 @@ public class Gui {
 
     public static void main(String args[]){
 
+        int num=0;
         loginPanel();
-        while (loginSuccess == false) {
-            Runnable theAction = new Runnable() {
-                @Override
-                public void run() {
-                    loginPressed();
-                }};
-            Thread thread1 = new Thread(theAction);
-            thread1.start();
-            System.out.println("thread started");
-            try {
-                thread1.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("thread ended");
-            //loginPressed();
-       }
-        System.out.println("finished while");
+        loginPressed();
+        while(loginAnswer.equals("not found")){
+            System.out.println("in");
+        }
+        /*if(loginAnswer.equals("worker doesnt exist")){
+            JOptionPane.showMessageDialog(null, "there is no such employee");
+        }
+        if (loginAnswer.equals("incorrect password")){
+            JOptionPane.showMessageDialog(null, "incorrect password");
+        }*/
+        if(loginAnswer.equals("found")) {
+            JOptionPane.showMessageDialog(null, "login Succeded");
+            frame.setVisible(false);
+        }
         if(loginSuccess==true){
             actionsPanel();
             System.out.println("in login success =true");
@@ -99,11 +96,6 @@ public static void loginPressed(){
                     loginAnswer = loginTrial(selecetedBranch, employeeName, employeePass);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
-                }
-                if(loginAnswer.equals("found")) {
-                    JOptionPane.showMessageDialog(null, loginAnswer);
-                    frame.setVisible(false);
-                    System.out.println("we are in login pressed,answer id found, "+loginSuccess);
                 }
             }
         });
